@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Big Number</title>
+</head>
+<body>
+<h2>Sum of 2 big numbers</h2>
+<p>
+    Stn1: <input type="text" style="width: 100px; text-align: right" placeholder="First number" id="firstNumber">
+</p>
+<p>
+    Stn2: <input type="text" style="width: 100px; text-align: right" placeholder="Second number" id="secondNumber">
+</p>
+<button onclick="callApi()">Calculate</button>
+<p id="result" style="color: blue; font-weight: bold;">Result is</p>
+<p>
+    Log: <textarea id="sumLog" rows="10" style="width: 150px;"></textarea>
+</p>
+
+<script>
+    function showData(arrayData) {
+        var finalValue = '', logValue = '';
+        for (var i=0;i<arrayData.length;i++) {
+            if (i === 0)
+                finalValue = "Result is " + arrayData[i];
+            else if (i === 1)
+                logValue = arrayData[i];
+            else
+                logValue += "\n" + arrayData[i];
+        }
+        document.getElementById('result').innerHTML = finalValue;
+        document.getElementById('sumLog').value = logValue;
+    }
+    function callApi() {
+        fetch('/api/sum', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                stn1: document.getElementById('firstNumber').value,
+                stn2: document.getElementById('secondNumber').value
+            })
+        })
+            .then(response => response.json())
+    .then(data => showData(data));
+    }
+
+</script>
+</body>
+</html>
