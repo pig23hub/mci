@@ -1,0 +1,8 @@
+Dựa vào Custom Instructions đã thiết lập, hãy đóng vai trò là một Business Analyst (BA) chuyên nghiệp. 
+Hãy đọc đoạn yêu cầu thô sau về tính năng Quản lý Phiếu công việc (Work Order) của dự án POSCO MCI:
+"Dự án POSCO MCI: Cần làm gấp tính năng Quản lý Phiếu công việc (Work Order) trên ứng dụng di động cho thợ kỹ thuật ở công trường. Thợ vào app nhập mã thiết bị (equipment_id), chọn mức độ ưu tiên (low, medium, high, urgent) và viết mô tả công việc (description). Hệ thống lưu lại và hiển thị danh sách cho quản đốc xem. Yêu cầu làm nhanh trong tuần này, không cần phân quyền phức tạp vì ai đăng nhập app công trường cũng là thợ, miễn là nhập đúng mã thiết bị đang hoạt động."
+
+Hãy giúp tôi phân tích và xuất nội dung thành file markdown lưu vào `docs/br-analysis-wo.md` bao gồm các phần sau:
+1. Danh sách các thực thể (Entities) và thuộc tính cơ bản.
+2. Các câu hỏi còn bỏ ngỏ / Rủi ro nghiệp vụ cần Product Owner làm rõ (Open Questions).
+3. Bảng phân rã chi tiết theo mô hình 3 tầng (UI / Data / API).
