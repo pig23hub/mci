@@ -1,13 +1,20 @@
 package com.posco.mci.myBigNumber;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class MyBigNumberController {
+
+    private final CsvImportService csvImportService = new CsvImportService();
 
     @GetMapping("/hello")
     public String getMessage() {
@@ -59,5 +66,20 @@ public class MyBigNumberController {
     @PostMapping("/sum")
     public List<String> sum(@RequestBody MyBigNumberDTO request) {
         return sum(request.getStn1(), request.getStn2());
+    }
+
+    @PostMapping(value = "/csv/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public CsvImportResult importCsv(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("quantityIndex") int quantityIndex,
+            @RequestParam("unitPriceIndex") int unitPriceIndex,
+            @RequestParam("vatIndex") int vatIndex) throws IOException {
+
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("CSV file is required.");
+        }
+
+        String csvContent = new String(file.getBytes());
+        return csvImportService.processCsv(csvContent, quantityIndex, unitPriceIndex, vatIndex);
     }
 }

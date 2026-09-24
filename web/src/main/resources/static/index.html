@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Big Number</title>
+    <title>Big Number + CSV Import</title>
 </head>
 <body>
 <h2>Sum of 2 big numbers</h2>
@@ -18,6 +18,22 @@
     Log: <textarea id="sumLog" rows="10" style="width: 150px;"></textarea>
 </p>
 
+<hr>
+
+<h2>Import CSV</h2>
+<p>
+    CSV file: <input type="file" id="csvFile" accept=".csv,text/csv">
+</p>
+<p>
+    Quantity column index: <input type="number" id="quantityIndex" value="1" min="0">
+</p>
+<p>
+    Unit price column index: <input type="number" id="unitPriceIndex" value="2" min="0">
+</p>
+<p>
+    VAT column index: <input type="number" id="vatIndex" value="3" min="0">
+</p>
+<button onclick="importCsv()">Import file CSV</button>
 <script>
     function showData(arrayData) {
         var finalValue = '', logValue = '';
@@ -32,6 +48,7 @@
         document.getElementById('result').innerHTML = finalValue;
         document.getElementById('sumLog').value = logValue;
     }
+
     function callApi() {
         fetch('/api/sum', {
             method: 'POST',
@@ -44,9 +61,54 @@
             })
         })
             .then(response => response.json())
-    .then(data => showData(data));
+            .then(data => showData(data));
     }
 
+    function downloadCsvOutput(csvContent) {
+        if (!csvContent || !csvContent.trim()) {
+            alert('No CSV content to download.');
+            return;
+        }
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'output.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
+    async function importCsv() {
+        const fileInput = document.getElementById('csvFile');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Please choose a CSV file first.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('quantityIndex', document.getElementById('quantityIndex').value);
+        formData.append('unitPriceIndex', document.getElementById('unitPriceIndex').value);
+        formData.append('vatIndex', document.getElementById('vatIndex').value);
+
+        const response = await fetch('/api/csv/import', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            alert(data.message || 'CSV import failed.');
+            return;
+        }
+
+        downloadCsvOutput(data.rows.join('\n'));
+    }
 </script>
 </body>
 </html>
