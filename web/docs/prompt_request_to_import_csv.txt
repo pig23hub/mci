@@ -1,0 +1,5 @@
+Tôi là senior java software developer
+
+Có yêu cầu mới như sau: giao diện UI bổ sung nút import file CSV cùng với thông số metadata. CSV có số cột nhiều hơn hoặc bằng với metadata. CSV ban đầu có n cột, trong đó có cột số lượng, đơn giá, VAT. CSV xuất ra có n+2 cột, trong đó n cột ban đầu, thêm 2 cột mới (total + total VAT). Cột mới Total VAT sẽ tính bằng công thức: Total + Total * VAT / 100. Thêm 1 dòng, trong đó n cột sẽ là trống, 2 cột mới sẽ là tổng của từng dòng
+
+Tôi không biết bắt đầu thế nào, hãy giúp tôi
