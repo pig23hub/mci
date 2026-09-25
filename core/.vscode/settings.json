@@ -1,0 +1,7 @@
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    "Never hardcode secrets, credentials, API keys, passwords, or tokens.",
+    "Follow the requirements in docs/* before implementing changes.",
+    "Keep code aligned with security and governance rules for this repository."
+  ]
+}
